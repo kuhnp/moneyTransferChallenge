@@ -2,16 +2,33 @@ package com.kuhnp.moneytransfertchallenge;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.kuhnp.moneytransfertchallenge.rest.RestApi;
+
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class MainActivity extends ActionBarActivity {
+
+
+    public static final String TAG = "MainActivity";
+    public static final String ENDPOINT = "https://wr-interview.herokuapp.com/api";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        requestData();
     }
 
     @Override
@@ -34,5 +51,29 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void requestData(){
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(ENDPOINT)
+                .build();
+        RestApi api = restAdapter.create(RestApi.class);
+
+        api.getCurrencies(new Callback<List<String>>() {
+            @Override
+            public void success(List<String> strings, Response response) {
+
+                for(String s : strings){
+                    Log.d(TAG,s);
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getApplicationContext(),"error",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 }

@@ -74,6 +74,18 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        api.getConversion(new Callback<Convertion>() {
+            @Override
+            public void success(Convertion convertion, Response response) {
+                
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getApplicationContext(),"error",Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 }

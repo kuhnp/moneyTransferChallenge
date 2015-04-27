@@ -1,5 +1,7 @@
 package com.kuhnp.moneytransfertchallenge.rest;
 
+import com.kuhnp.moneytransfertchallenge.Convertion;
+
 import java.util.List;
 
 import retrofit.Callback;
@@ -12,4 +14,8 @@ public interface RestApi {
 
     @GET("/currencies")
     public void getCurrencies(Callback<List<String>> response);
+
+    @GET("/calculate?amount=120&sendcurrency=GBP&receivecurrency=EUR")
+    public void getConversion(Callback<Convertion> response);
+
 }

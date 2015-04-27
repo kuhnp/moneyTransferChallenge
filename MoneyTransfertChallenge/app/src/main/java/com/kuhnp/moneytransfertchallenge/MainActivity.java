@@ -1,15 +1,27 @@
 package com.kuhnp.moneytransfertchallenge;
 
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.database.MatrixCursor;
+import android.os.Build;
+import android.provider.ContactsContract;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import com.kuhnp.moneytransfertchallenge.adapter.ContactCursorAdapter;
 import com.kuhnp.moneytransfertchallenge.rest.RestApi;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -17,18 +29,27 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
 
     public static final String TAG = "MainActivity";
-    public static final String ENDPOINT = "https://wr-interview.herokuapp.com/api";
+
+    private MyApplication application;
+
+    private ContactCursorAdapter mAdapter;
+    private ListView mContactsList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        requestData();
+        mContactsList = (ListView) findViewById(R.id.fragmentContact_LV);
+        mAdapter = new ContactCursorAdapter(this, null, 0);
+        mContactsList.setAdapter(mAdapter);
+        getSupportLoaderManager().initLoader(0, null, MainActivity.this);
+
     }
 
     @Override
@@ -53,39 +74,73 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void requestData(){
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(ENDPOINT)
-                .build();
-        RestApi api = restAdapter.create(RestApi.class);
 
-        api.getCurrencies(new Callback<List<String>>() {
-            @Override
-            public void success(List<String> strings, Response response) {
+    @Override
+    public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+        String[] args = null;
 
-                for(String s : strings){
-                    Log.d(TAG,s);
-                }
+        String[] PROJECTION = new String[] {
+                ContactsContract.RawContacts._ID,
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ? ContactsContract
+                        .Contacts.DISPLAY_NAME_PRIMARY
+                        : ContactsContract.Contacts.DISPLAY_NAME,
+                ContactsContract.Contacts.PHOTO_ID,
+                ContactsContract.CommonDataKinds.Email.DATA,
+                ContactsContract.CommonDataKinds.Photo.PHOTO };
+
+        String selection = ContactsContract.CommonDataKinds.Email.DATA
+                + " NOT LIKE \"\"";
+
+
+        String sortOrder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            sortOrder = ContactsContract.Contacts.DISPLAY_NAME_PRIMARY
+                    + " COLLATE LOCALIZED ASC";
+        } else {
+            sortOrder = ContactsContract.Contacts.DISPLAY_NAME
+                    + " COLLATE LOCALIZED ASC";
+        }
+
+        return new CursorLoader(this,
+                ContactsContract.CommonDataKinds.Email.CONTENT_URI, PROJECTION,
+                selection, args, sortOrder);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        // remove the duplicated email contact
+        String[] PROJECTION = new String[] {
+                ContactsContract.RawContacts._ID,
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ? ContactsContract
+                        .Contacts.DISPLAY_NAME_PRIMARY
+                        : ContactsContract.Contacts.DISPLAY_NAME,
+                ContactsContract.Contacts.PHOTO_ID,
+                ContactsContract.CommonDataKinds.Email.DATA };
+
+        MatrixCursor result = new MatrixCursor(PROJECTION);
+        Set<String> seen = new HashSet<>();
+        while (data.moveToNext()) {
+            String raw = data.getString(3);
+            if (!seen.contains(raw)) {
+                seen.add(raw);
+                result.addRow(new Object[] { data.getLong(0),
+                        data.getString(1), data.getInt(2), data.getString(3) });
             }
+        }
+        mAdapter.swapCursor(result);
+        mContactsList.setFastScrollEnabled(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            mContactsList.setFastScrollAlwaysVisible(true);    // This method only exists from API level 11
+        }
+    }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Toast.makeText(getApplicationContext(),"error",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        api.getConversion(new Callback<Convertion>() {
-            @Override
-            public void success(Convertion convertion, Response response) {
-                
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Toast.makeText(getApplicationContext(),"error",Toast.LENGTH_SHORT).show();
-            }
-        });
-
+    @Override
+    public void onLoaderReset(Loader loader) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            mContactsList.setFastScrollAlwaysVisible(false);    // This method only exists from API level 11
+        }
+        mContactsList.setFastScrollEnabled(false);          // We need to make sure the ListView does not try and use an indexer that does not exist yet
+        mAdapter.swapCursor(null);
 
     }
 }

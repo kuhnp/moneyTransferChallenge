@@ -28,23 +28,18 @@ import java.util.Set;
 
 public class MainActivity extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-
     public static final String TAG = "MainActivity";
 
     private boolean isContactsVisible = false;
-
     private ContactCursorAdapter mAdapter;
     private ListView mContactsList;
     public String mContactSelected = "";
     public String mEmailSelected = "";
-
     private FloatingActionButton mContactButton;
     public ProgressDialog mProgressDialog;
     private TextView mContactTV;
     private TextView mTitleTV;
     public ImageView mAvatarIV;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +100,6 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
@@ -172,7 +166,6 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         }
         mContactsList.setFastScrollEnabled(false);          // We need to make sure the ListView does not try and use an indexer that does not exist yet
         mAdapter.swapCursor(null);
-
     }
 
     /**
@@ -184,7 +177,6 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         this.mContactSelected = name;
         this.mContactTV.setVisibility(View.VISIBLE);
         this.mContactTV.setText(name);
-
     }
 
     public void updateEmail(String email){

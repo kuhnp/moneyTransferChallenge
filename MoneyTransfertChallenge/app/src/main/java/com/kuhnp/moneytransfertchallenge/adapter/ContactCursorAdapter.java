@@ -132,5 +132,5 @@ public class ContactCursorAdapter extends CursorAdapter {
         CheckBox contact_CB;
         View general_L;
     }
-    
+
 }

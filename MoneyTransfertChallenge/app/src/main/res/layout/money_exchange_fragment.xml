@@ -14,7 +14,7 @@
         android:id="@+id/you_send_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="You send"
+        android:text="@string/send_title"
         android:textSize="25sp"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
@@ -37,7 +37,7 @@
         android:layout_below="@+id/you_send_textview"
         android:layout_marginLeft="15dp"
         android:inputType="numberDecimal"
-        android:hint="enter amount"
+        android:hint="@string/amount_hint"
         android:focusableInTouchMode="true"/>
 
     <TextView
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/amount1"
-        android:text="Recipient Receive"
+        android:text="@string/receive_title"
         android:textSize="25sp"
         android:layout_marginTop="40dp"
         android:layout_marginLeft="15dp"
@@ -68,7 +68,7 @@
         android:layout_below="@+id/you_receive_textview"
         android:layout_marginLeft="15dp"
         android:inputType="numberDecimal"
-        android:hint="enter amount"
+        android:hint="@string/amount_hint"
         android:focusableInTouchMode="true"/>
 
     <Button
@@ -79,7 +79,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:text="Calculate"
+        android:text="@string/calculate"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:background="@drawable/calculate_button"

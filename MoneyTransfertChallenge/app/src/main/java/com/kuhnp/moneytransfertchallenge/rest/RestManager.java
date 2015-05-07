@@ -71,12 +71,12 @@ public class RestManager {
         });
     }
 
-    public void requestDataConverion(String amount, String sendCurrency, String receiveCurency, final Context c, boolean order){
+    public void requestDataConverion(String amount, String sendCurrency, String receivedCurency, final Context c, boolean order){
         final boolean orderTmp = order;
-        mApi.getConversion(amount, sendCurrency, receiveCurency, new Callback<Conversion>() {
+        mApi.getConversion(amount, sendCurrency, receivedCurency, new Callback<Conversion>() {
             @Override
-            public void success(Conversion convertion, Response response) {
-                updateFragment(convertion, c, orderTmp);
+            public void success(Conversion conversion, Response response) {
+                updateFragment(conversion, c, orderTmp);
             }
 
             @Override

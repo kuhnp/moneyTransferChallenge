@@ -5,4 +5,12 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_splash">Splash</string>
     <string name="contact_selected">Contact selected</string>
+    <string name="no_contact_selected">You must select a contact</string>
+    <string name="empty_fields">"Fields are empty"</string>
+    <string name="calculate">CALCULATE</string>
+    <string name="send">SEND</string>
+    <string name="send_title">You send</string>
+    <string name="receive_title">Recipient Receive</string>
+    <string name="amount_hint">enter amount</string>
+
 </resources>

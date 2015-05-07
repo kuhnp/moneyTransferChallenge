@@ -80,15 +80,13 @@ public class MoneyExchangeFragment extends Fragment {
         mEditTextSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSendButton.setText("CALCULATE");
-                isReadyToSend = false;
+                setReadyToSendFalse();
             }
         });
         mEditTextReceived.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSendButton.setText("CALCULATE");
-                isReadyToSend = false;
+                setReadyToSendFalse();
             }
         });
 
@@ -99,8 +97,7 @@ public class MoneyExchangeFragment extends Fragment {
                     if (mEditTextReceived != null) {
                         mEditTextReceived.getText().clear();
                     }
-                    mSendButton.setText("CALCULATE");
-                    isReadyToSend = false;
+                    setReadyToSendFalse();
                 }
             }
         });
@@ -112,8 +109,7 @@ public class MoneyExchangeFragment extends Fragment {
                     if (!mEditTextSend.getText().toString().isEmpty()) {
                         mEditTextSend.getText().clear();
                     }
-                    mSendButton.setText("CALCULATE");
-                    isReadyToSend = false;
+                    setReadyToSendFalse();
                 }
             }
         });
@@ -146,15 +142,20 @@ public class MoneyExchangeFragment extends Fragment {
            @Override
            public void onClick(View v) {
                if (isReadyToSend) {
-                   Conversion conversion = new Conversion(mEditTextSend.getText().toString(),
-                           mEditTextReceived.getText().toString(),
-                           mSpinner2.getSelectedItem().toString(),
-                           mSpinner1.getSelectedItem().toString(),
-                           ((MainActivity)getActivity()).mContactSelected);
-                   mRestManager.sendMoney(conversion);
+                   if(!((MainActivity)getActivity()).mContactSelected.isEmpty()) {
+                       Conversion conversion = new Conversion(mEditTextSend.getText().toString(),
+                               mEditTextReceived.getText().toString(),
+                               mSpinner2.getSelectedItem().toString(),
+                               mSpinner1.getSelectedItem().toString(),
+                               ((MainActivity) getActivity()).mContactSelected);
+                       mRestManager.sendMoney(conversion);
+                   }
+                   else{
+                       Toast.makeText(getActivity(), R.string.no_contact_selected, Toast.LENGTH_SHORT).show();
+                   }
                } else {
                    if (mEditTextSend.getText().toString().isEmpty() && mEditTextReceived.getText().toString().isEmpty()) {
-                       Toast.makeText(getActivity(), "Fields are empty", Toast.LENGTH_SHORT).show();
+                       Toast.makeText(getActivity(), R.string.empty_fields, Toast.LENGTH_SHORT).show();
                    }
                    else{
                        if(mEditTextSend.getText().toString().isEmpty())
@@ -163,7 +164,6 @@ public class MoneyExchangeFragment extends Fragment {
                            isReverse = false;
                        requestConversion();
                    }
-
                }
            }
        });
@@ -172,8 +172,7 @@ public class MoneyExchangeFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mEditTextReceived.getText().clear();
-                mSendButton.setText("CALCULATE");
-                isReadyToSend = false;
+                setReadyToSendFalse();
             }
 
             @Override
@@ -186,13 +185,11 @@ public class MoneyExchangeFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mEditTextReceived.getText().clear();
-                mSendButton.setText("CALCULATE");
-                isReadyToSend = false;
+                setReadyToSendFalse();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -201,7 +198,7 @@ public class MoneyExchangeFragment extends Fragment {
     }
 
     public void refreshFragment(Conversion conversion, boolean order){
-        mSendButton.setText("SEND");
+        mSendButton.setText(R.string.send);
         isReadyToSend = true;
         mEditTextReceived.clearFocus();
         mEditTextSend.clearFocus();
@@ -235,6 +232,10 @@ public class MoneyExchangeFragment extends Fragment {
         }
     }
 
+    public void setReadyToSendFalse(){
+        mSendButton.setText(R.string.calculate);
+        isReadyToSend = false;
+    }
 }
 
 class DecimalDigitsInputFilter implements InputFilter {

@@ -21,8 +21,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.kuhnp.moneytransfertchallenge.adapter.ContactCursorAdapter;
 import net.i2p.android.ext.floatingactionbutton.FloatingActionButton;
-
-import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,7 +36,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 
     private ContactCursorAdapter mAdapter;
     private ListView mContactsList;
-    public String mContactSelected;
+    public String mContactSelected = "";
     public String mEmailSelected;
     FloatingActionButton mContactButton;
     public ProgressDialog mProgressDialog;

@@ -1,7 +1,44 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.kuhnp.moneytransfertchallenge.Splash">
+    tools:context="com.kuhnp.moneytransfertchallenge.Splash"
+    android:background="@color/white">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fast Transfer"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textSize="40sp"
+        android:textColor="@color/text_grey"/>
 
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="170dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/green_splash">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="by Pierre"
+            android:textSize="25sp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="170dp"
+        android:background="@color/main_blue">
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/money_icon"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
 </RelativeLayout>

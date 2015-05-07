@@ -14,7 +14,7 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /**
- * Created by pierre on 27/04/2015.
+ * Created by pierre
  */
 public class RoundedImageView extends ImageView {
 

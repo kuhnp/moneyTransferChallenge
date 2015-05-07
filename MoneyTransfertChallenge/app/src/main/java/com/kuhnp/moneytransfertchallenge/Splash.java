@@ -1,5 +1,6 @@
 package com.kuhnp.moneytransfertchallenge;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
@@ -10,7 +11,7 @@ import android.view.MenuItem;
 import com.kuhnp.moneytransfertchallenge.rest.RestManager;
 
 
-public class Splash extends ActionBarActivity {
+public class Splash extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +24,7 @@ public class Splash extends ActionBarActivity {
                 RestManager restManager = ((MyApplication)getApplicationContext()).restManager;
                 restManager.requestDataCurrencies(Splash.this);
             }
-        }, 1000);
+        }, 2000);
     }
 
     @Override

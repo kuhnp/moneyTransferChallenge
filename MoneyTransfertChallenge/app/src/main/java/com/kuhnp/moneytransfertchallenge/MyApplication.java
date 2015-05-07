@@ -5,7 +5,7 @@ import android.app.Application;
 import com.kuhnp.moneytransfertchallenge.rest.RestManager;
 
 /**
- * Created by pierre on 27/04/2015.
+ * Created by pierre
  */
 public class MyApplication extends Application {
 

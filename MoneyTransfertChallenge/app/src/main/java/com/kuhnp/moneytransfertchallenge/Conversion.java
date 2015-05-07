@@ -1,7 +1,7 @@
 package com.kuhnp.moneytransfertchallenge;
 
 /**
- * Created by pierre on 27/04/2015.
+ * Created by pierre
  */
 public class Conversion {
 
@@ -9,6 +9,9 @@ public class Conversion {
     private String receiveamount;
     private String receivecurrency;
     private String sendcurrency;
+
+
+
     private String recipient;
 
     public Conversion(String sendmount, String receiveamount, String receivecurrency, String sendcurrency, String name){
@@ -33,5 +36,9 @@ public class Conversion {
 
     public String getReceiveamount() {
         return receiveamount;
+    }
+
+    public String getRecipient() {
+        return recipient;
     }
 }

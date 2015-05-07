@@ -20,7 +20,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by pierre on 27/04/2015.
+ * Created by pierre
  */
 public class RestManager {
 
@@ -29,7 +29,6 @@ public class RestManager {
 
     static RestManager mInstance;
     private Context context;
-    private MyApplication application;
     private RestAdapter mRestAdapter;
     private RestApi mApi;
     public List<String> mCurrencyList;
@@ -37,7 +36,6 @@ public class RestManager {
 
     private RestManager(Context context){
         this.context = context;
-        application = (MyApplication) context.getApplicationContext();
         mRestAdapter = new RestAdapter.Builder()
                 .setEndpoint(ENDPOINT)
                 .build();
@@ -50,6 +48,10 @@ public class RestManager {
         return mInstance;
     }
 
+    /**
+     * Method to get get the available currencies from the API
+     * @param c
+     */
     public void requestDataCurrencies(Context c){
         final Context context =c;
         mApi.getCurrencies(new Callback<List<String>>() {
@@ -66,47 +68,64 @@ public class RestManager {
             }
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(context, "error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    /**
+     * Method to call the API to calculate the conversion depending on the chosen currencies
+     * @param amount
+     * @param sendCurrency
+     * @param receivedCurency
+     * @param c
+     * @param order
+     */
     public void requestDataConverion(String amount, String sendCurrency, String receivedCurency, final Context c, boolean order){
         final boolean orderTmp = order;
         mApi.getConversion(amount, sendCurrency, receivedCurency, new Callback<Conversion>() {
             @Override
             public void success(Conversion conversion, Response response) {
-                updateFragment(conversion, c, orderTmp);
+                updateFragmentAfterConversion(conversion, c, orderTmp);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d(TAG, "error");
+                Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    public void sendMoney(Conversion conversion){
+    /**
+     * Method to send Money to the API
+     * @param conversion
+     * @param c
+     */
+    public void sendMoney(final Conversion conversion, final Context c){
         mApi.sendMoney(conversion, new Callback<String>() {
             @Override
             public void success(String s, Response response) {
-                if(response.getStatus() == 201 && response.getReason().equalsIgnoreCase("Created"))
-                    Toast.makeText(context, "Money successfully transfered", Toast.LENGTH_SHORT).show();
+                if (response.getStatus() == 201 && response.getReason().equalsIgnoreCase("Created"))
+                    //Toast.makeText(context, "Money successfully transfered", Toast.LENGTH_SHORT).show();
+                    updateFragmentAfterSend(conversion, c);
                 else
-                    Toast.makeText(context, "error during the transaction", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.transaction_error, Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(context, "Network error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    public void updateFragment(Conversion conversion, Context c, boolean order){
+    public void updateFragmentAfterConversion(Conversion conversion, Context c, boolean order){
        MoneyExchangeFragment fragment = (MoneyExchangeFragment) ((MainActivity)c).getSupportFragmentManager().findFragmentById(R.id.fragment);
-        fragment.refreshFragment(conversion, order);
-
-
+        fragment.refreshFragmentAfterConversion(conversion, order);
     }
 
+    public void updateFragmentAfterSend(Conversion conversion, Context c){
+        MoneyExchangeFragment fragment = (MoneyExchangeFragment) ((MainActivity)c).getSupportFragmentManager().findFragmentById(R.id.fragment);
+        fragment.refreshFragmentAfterSend(conversion);
+    }
 }

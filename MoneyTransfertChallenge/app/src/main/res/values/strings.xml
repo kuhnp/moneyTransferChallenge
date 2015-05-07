@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MoneyTransfertChallenge</string>
+    <string name="app_name">Fast Transfer</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -9,8 +9,11 @@
     <string name="empty_fields">"Fields are empty"</string>
     <string name="calculate">CALCULATE</string>
     <string name="send">SEND</string>
+    <string name="another_transfer">new transfer</string>
     <string name="send_title">You send</string>
     <string name="receive_title">Recipient Receive</string>
+    <string name="network_error">Network error</string>
+    <string name="transaction_error">Error during the transaction</string>
     <string name="amount_hint">enter amount</string>
 
 </resources>

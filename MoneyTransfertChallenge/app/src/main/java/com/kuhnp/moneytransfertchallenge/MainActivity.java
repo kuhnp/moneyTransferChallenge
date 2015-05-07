@@ -31,18 +31,18 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 
     public static final String TAG = "MainActivity";
 
-    private MyApplication application;
     private boolean isContactsVisible = false;
 
     private ContactCursorAdapter mAdapter;
     private ListView mContactsList;
     public String mContactSelected = "";
-    public String mEmailSelected;
-    FloatingActionButton mContactButton;
+    public String mEmailSelected = "";
+
+    private FloatingActionButton mContactButton;
     public ProgressDialog mProgressDialog;
     private TextView mContactTV;
     private TextView mTitleTV;
-    private ImageView mAvatarIV;
+    public ImageView mAvatarIV;
 
 
 
@@ -140,7 +140,6 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        // remove the duplicated email contact
         String[] PROJECTION = new String[] {
                 ContactsContract.RawContacts._ID,
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ? ContactsContract
@@ -176,6 +175,10 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 
     }
 
+    /**
+     * Update contact name and UI.
+     * @param name
+     */
     public void updateContactName(String name){
         this.mTitleTV.setText(R.string.contact_selected);
         this.mContactSelected = name;
@@ -188,7 +191,10 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         this.mEmailSelected = email;
     }
 
-
+    /**
+     * Update avatar Picture
+     * @param thumbnail
+     */
     public void updateContactAvatar(Bitmap thumbnail){
         this.mAvatarIV.setVisibility(View.VISIBLE);
         this.mContactButton.setVisibility(View.GONE);
@@ -205,6 +211,9 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         }
     }
 
+    /**
+     * Hide contact list method.
+     */
     public void hideContactList(){
         mContactsList.post(new Runnable() {
             @Override
@@ -218,6 +227,9 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         mAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Show contact list method.
+     */
     public void showContactList(){
         mContactsList.setVisibility(View.VISIBLE);
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_slide_in_bottom);

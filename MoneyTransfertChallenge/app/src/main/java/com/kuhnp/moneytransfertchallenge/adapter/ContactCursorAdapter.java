@@ -6,13 +6,11 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AlphabetIndexer;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,7 +19,7 @@ import com.kuhnp.moneytransfertchallenge.MainActivity;
 import com.kuhnp.moneytransfertchallenge.R;
 
 /**
- * Created by pierre on 27/04/2015.
+ * Created by pierre
  */
 public class ContactCursorAdapter extends CursorAdapter {
 
@@ -29,8 +27,7 @@ public class ContactCursorAdapter extends CursorAdapter {
             .CommonDataKinds.Photo.PHOTO };
 
     LayoutInflater mInflater;
-    AlphabetIndexer mAlphaIndexer;
-    private String mContactSeleceted;
+    private String mContactSelected;
     private String mEmailSelected;
 
     public  ContactCursorAdapter(Context context, Cursor c, int flags){
@@ -69,8 +66,6 @@ public class ContactCursorAdapter extends CursorAdapter {
                 .getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
         final String email = cursor
                 .getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
-        final Integer photoId=cursor.getInt(cursor
-                .getColumnIndex(ContactsContract.Contacts.PHOTO_ID));
         holder.email_TV.setText(email);
         holder.name_TV.setText(name);
         final Bitmap thumbnail = fetchThumbnail(cursor.getInt(cursor
@@ -87,48 +82,32 @@ public class ContactCursorAdapter extends CursorAdapter {
         holder.general_L.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // contact chosen
+
                 ((MainActivity)context).updateContactName(name);
                 ((MainActivity)context).updateEmail(email);
                 ((MainActivity)context).updateContactAvatar(thumbnail);
 
-                holderTmp.general_L.setBackgroundColor(((MainActivity) mContext).getResources().getColor(R.color
+                holderTmp.general_L.setBackgroundColor(mContext.getResources().getColor(R.color
                         .contact_list_highlight_color));
                 holderTmp.contact_CB.setChecked(true);
-                mContactSeleceted = name;
+                mContactSelected = name;
                 mEmailSelected = email;
                 ((MainActivity)context).hideContactList();
             }
         });
 
-        if (mContactSeleceted != null) {
-            if (mContactSeleceted.equalsIgnoreCase(name) && mEmailSelected.equalsIgnoreCase(email)) {
+        if (mContactSelected != null) {
+            if (mContactSelected.equalsIgnoreCase(name) && mEmailSelected.equalsIgnoreCase(email)) {
                 holderTmp.contact_CB.setChecked(true);
-                holderTmp.general_L.setBackgroundColor(((MainActivity) mContext).getResources().getColor(R.color
+                holderTmp.general_L.setBackgroundColor((mContext).getResources().getColor(R.color
                         .contact_list_highlight_color));
             }
             else{
                 holderTmp.contact_CB.setChecked(false);
-                holderTmp.general_L.setBackgroundColor(((MainActivity) mContext).getResources().getColor(R.color
+                holderTmp.general_L.setBackgroundColor((mContext).getResources().getColor(R.color
                         .background_material_light));
             }
         }
-
-    }
-
-    @Override
-    public Cursor swapCursor(Cursor c) {
-        // Create our indexer
-        if (c != null) {
-            String columnName;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                columnName = ContactsContract.Contacts.DISPLAY_NAME_PRIMARY;
-            } else {
-                columnName = ContactsContract.Contacts.DISPLAY_NAME;
-            }
-            mAlphaIndexer = new AlphabetIndexer(c, c.getColumnIndex(columnName), "#ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-        }
-        return super.swapCursor(c);
     }
 
     final Bitmap fetchThumbnail(final int thumbnailId) {
@@ -150,7 +129,6 @@ public class ContactCursorAdapter extends CursorAdapter {
             cursor.close();
         }
     }
-
     static class ContactHolder {
         TextView name_TV;
         TextView email_TV;

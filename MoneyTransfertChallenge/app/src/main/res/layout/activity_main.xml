@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="140dp"
         android:layout_alignParentTop="true"
-        android:background="#bc0c86ca">
+        android:background="@color/main_blue">
 
         <TextView
             android:id="@+id/send_money_to_text"

@@ -60,8 +60,6 @@ public class ContactCursorAdapter extends CursorAdapter {
             holder.general_L = view.findViewById(R.id.layout_general);
             view.setTag(holder);
         }
-
-
         final String name = cursor.getString(cursor
                 .getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
         final String email = cursor
@@ -77,7 +75,6 @@ public class ContactCursorAdapter extends CursorAdapter {
             holder.icon_IV.setImageDrawable(mContext.getResources()
                     .getDrawable(R.drawable.unknown_person));
         }
-
         final ContactHolder holderTmp = holder;
         holder.general_L.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +92,6 @@ public class ContactCursorAdapter extends CursorAdapter {
                 ((MainActivity)context).hideContactList();
             }
         });
-
         if (mContactSelected != null) {
             if (mContactSelected.equalsIgnoreCase(name) && mEmailSelected.equalsIgnoreCase(email)) {
                 holderTmp.contact_CB.setChecked(true);
@@ -136,6 +132,5 @@ public class ContactCursorAdapter extends CursorAdapter {
         CheckBox contact_CB;
         View general_L;
     }
-
-
+    
 }

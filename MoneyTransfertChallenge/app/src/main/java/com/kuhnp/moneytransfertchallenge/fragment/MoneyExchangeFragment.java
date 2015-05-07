@@ -201,7 +201,6 @@ public class MoneyExchangeFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -216,7 +215,6 @@ public class MoneyExchangeFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
         return viewRoot;
 
     }

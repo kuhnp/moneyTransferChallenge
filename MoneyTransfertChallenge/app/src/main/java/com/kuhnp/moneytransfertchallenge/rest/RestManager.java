@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import com.kuhnp.moneytransfertchallenge.Conversion;
 import com.kuhnp.moneytransfertchallenge.MainActivity;
-import com.kuhnp.moneytransfertchallenge.MyApplication;
 import com.kuhnp.moneytransfertchallenge.R;
 import com.kuhnp.moneytransfertchallenge.fragment.MoneyExchangeFragment;
 

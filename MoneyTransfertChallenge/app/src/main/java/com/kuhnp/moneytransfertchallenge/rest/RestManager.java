@@ -33,7 +33,6 @@ public class RestManager {
     private RestApi mApi;
     public List<String> mCurrencyList;
 
-
     private RestManager(Context context){
         this.context = context;
         mRestAdapter = new RestAdapter.Builder()

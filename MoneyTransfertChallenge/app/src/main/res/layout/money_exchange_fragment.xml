@@ -87,7 +87,7 @@
         android:layout_height="60dp"
         android:layout_below="@+id/currencySpinner2"
         android:layout_marginTop="10dp"
-        android:text="Money Sent!"
+        android:text="@string/money_sent"
         android:gravity="center"
         android:textSize="30sp"
         android:textColor="@color/green_splash"

@@ -222,6 +222,11 @@ public class MoneyExchangeFragment extends Fragment {
 
     }
 
+    /**
+     * Method to update UI (display values received after requesting the API) after conversion
+     * @param conversion
+     * @param order
+     */
     public void refreshFragmentAfterConversion(Conversion conversion, boolean order){
         mSendButton.setText(R.string.send);
         isReadyToSend = true;
@@ -244,6 +249,10 @@ public class MoneyExchangeFragment extends Fragment {
         ((MainActivity)getActivity()).mProgressDialog.dismiss();
     }
 
+    /**
+     * Method to update UI after money is sent
+     * @param conversion
+     */
     public void refreshFragmentAfterSend(Conversion conversion){
         mSendButton.setVisibility(View.GONE);
         mResultTV.setVisibility(View.VISIBLE);
@@ -284,6 +293,9 @@ public class MoneyExchangeFragment extends Fragment {
     }
 }
 
+/**
+ * Filter Class to limit the user input to 2 decimal digits
+ */
 class DecimalDigitsInputFilter implements InputFilter {
 
     Pattern mPattern;

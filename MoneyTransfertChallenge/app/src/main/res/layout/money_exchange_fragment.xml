@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="400dp">
+
+    <View
+        android:id="@+id/focus_thief"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
+    <TextView
+        android:id="@+id/you_send_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You send"
+        android:textSize="25sp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+         />
+
+    <Spinner
+        android:id="@+id/currencySpinner1"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/you_send_textview"
+        android:layout_toRightOf="@+id/amount1"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="5dp"
+        />
+
+    <EditText
+        android:id="@+id/amount1"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/you_send_textview"
+        android:layout_marginLeft="15dp"
+        android:inputType="numberDecimal"
+        android:hint="enter amount"
+        android:focusableInTouchMode="true"/>
+
+    <TextView
+        android:id="@+id/you_receive_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/amount1"
+        android:text="Recipient Receive"
+        android:textSize="25sp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="15dp"
+        />
+
+    <Spinner
+        android:id="@+id/currencySpinner2"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/you_receive_textview"
+        android:layout_toRightOf="@+id/amount2"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="5dp"/>
+
+
+    <EditText
+        android:id="@+id/amount2"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/you_receive_textview"
+        android:layout_marginLeft="15dp"
+        android:inputType="numberDecimal"
+        android:hint="enter amount"
+        android:focusableInTouchMode="true"/>
+
+    <Button
+        android:id="@+id/sendB"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/currencySpinner2"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="Calculate"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:background="@drawable/calculate_button"
+        />
+
+</RelativeLayout>

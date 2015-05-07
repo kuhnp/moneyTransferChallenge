@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kuhnp.moneytransfertchallenge.MainActivity;
 import com.kuhnp.moneytransfertchallenge.R;
 
 /**
@@ -29,6 +30,8 @@ public class ContactCursorAdapter extends CursorAdapter {
 
     LayoutInflater mInflater;
     AlphabetIndexer mAlphaIndexer;
+    private String mContactSeleceted;
+    private String mEmailSelected;
 
     public  ContactCursorAdapter(Context context, Cursor c, int flags){
         super(context, c, flags);
@@ -44,7 +47,7 @@ public class ContactCursorAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, Cursor cursor) {
 
         ContactHolder holder = (ContactHolder) view.getTag();
         if (holder == null) {
@@ -70,7 +73,7 @@ public class ContactCursorAdapter extends CursorAdapter {
                 .getColumnIndex(ContactsContract.Contacts.PHOTO_ID));
         holder.email_TV.setText(email);
         holder.name_TV.setText(name);
-        Bitmap thumbnail = fetchThumbnail(cursor.getInt(cursor
+        final Bitmap thumbnail = fetchThumbnail(cursor.getInt(cursor
                 .getColumnIndex(ContactsContract.Contacts.PHOTO_ID)));
         if (thumbnail != null) {
             holder.icon_IV.setImageBitmap(thumbnail);
@@ -80,12 +83,37 @@ public class ContactCursorAdapter extends CursorAdapter {
                     .getDrawable(R.drawable.unknown_person));
         }
 
+        final ContactHolder holderTmp = holder;
         holder.general_L.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // contact chosen
+                ((MainActivity)context).updateContactName(name);
+                ((MainActivity)context).updateEmail(email);
+                ((MainActivity)context).updateContactAvatar(thumbnail);
+
+                holderTmp.general_L.setBackgroundColor(((MainActivity) mContext).getResources().getColor(R.color
+                        .contact_list_highlight_color));
+                holderTmp.contact_CB.setChecked(true);
+                mContactSeleceted = name;
+                mEmailSelected = email;
+                ((MainActivity)context).hideContactList();
             }
         });
+
+        if (mContactSeleceted != null) {
+            if (mContactSeleceted.equalsIgnoreCase(name) && mEmailSelected.equalsIgnoreCase(email)) {
+                holderTmp.contact_CB.setChecked(true);
+                holderTmp.general_L.setBackgroundColor(((MainActivity) mContext).getResources().getColor(R.color
+                        .contact_list_highlight_color));
+            }
+            else{
+                holderTmp.contact_CB.setChecked(false);
+                holderTmp.general_L.setBackgroundColor(((MainActivity) mContext).getResources().getColor(R.color
+                        .background_material_light));
+            }
+        }
+
     }
 
     @Override

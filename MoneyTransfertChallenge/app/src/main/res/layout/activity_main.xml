@@ -1,17 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="140dp"
+        android:layout_alignParentTop="true"
+        android:background="#bc0c86ca">
+
+        <TextView
+            android:id="@+id/send_money_to_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select a contact"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            />
+
+        <TextView
+            android:id="@+id/contact_selected_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="35dp"
+            android:layout_toRightOf="@+id/Contact_photo_IV"
+            android:layout_marginLeft="20dp"
+            android:maxLength="23"
+            android:text="name"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:visibility="gone"/>
+
+        <com.kuhnp.moneytransfertchallenge.utils.RoundedImageView
+            android:id="@+id/Contact_photo_IV"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="20dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/unknown_person"
+            android:visibility="gone"/>
+
+        <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
+            android:id="@+id/contactB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_icon="@drawable/profile"
+            fab:fab_colorNormal="@color/material_blue_grey_900"
+            android:layout_below="@+id/send_money_to_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"/>
+
+
+    </RelativeLayout>
+
+    <fragment
+        android:id="@+id/fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:name="com.kuhnp.moneytransfertchallenge.fragment.MoneyExchangeFragment"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="140dp"
+        />
+
 
     <ListView
         android:id="@+id/fragmentContact_LV"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="140dp"
         android:divider="@null"
         android:dividerHeight="@dimen/list_separator"
-        android:visibility="gone"/>
+        android:background="@color/background_material_light"
+        android:visibility="gone"
+        />
+
 
 </RelativeLayout>

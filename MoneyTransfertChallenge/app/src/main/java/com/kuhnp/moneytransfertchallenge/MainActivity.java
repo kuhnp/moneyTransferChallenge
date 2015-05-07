@@ -1,43 +1,51 @@
 package com.kuhnp.moneytransfertchallenge;
 
-import android.content.ContentResolver;
+import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.database.MatrixCursor;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.provider.ContactsContract;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
-
+import android.widget.TextView;
 import com.kuhnp.moneytransfertchallenge.adapter.ContactCursorAdapter;
-import com.kuhnp.moneytransfertchallenge.rest.RestApi;
+import net.i2p.android.ext.floatingactionbutton.FloatingActionButton;
 
+import java.text.DecimalFormat;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 
-public class MainActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MainActivity extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
 
     public static final String TAG = "MainActivity";
 
     private MyApplication application;
+    private boolean isContactsVisible = false;
 
     private ContactCursorAdapter mAdapter;
     private ListView mContactsList;
+    public String mContactSelected;
+    public String mEmailSelected;
+    FloatingActionButton mContactButton;
+    public ProgressDialog mProgressDialog;
+    private TextView mContactTV;
+    private TextView mTitleTV;
+    private ImageView mAvatarIV;
+
 
 
     @Override
@@ -46,10 +54,36 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
 
         mContactsList = (ListView) findViewById(R.id.fragmentContact_LV);
+        mContactsList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        mContactTV = (TextView) findViewById(R.id.contact_selected_TV);
+        mTitleTV = (TextView) findViewById(R.id.send_money_to_text);
+        mAvatarIV = (ImageView) findViewById(R.id.Contact_photo_IV);
         mAdapter = new ContactCursorAdapter(this, null, 0);
         mContactsList.setAdapter(mAdapter);
         getSupportLoaderManager().initLoader(0, null, MainActivity.this);
+        mContactButton = (FloatingActionButton) findViewById(R.id.contactB);
+        mContactButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isContactsVisible)
+                    showContactList();
+                else
+                    hideContactList();
+            }
+        });
 
+        mAvatarIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isContactsVisible)
+                    showContactList();
+                else
+                    hideContactList();
+            }
+        });
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(false);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
     }
 
     @Override
@@ -142,5 +176,54 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         mContactsList.setFastScrollEnabled(false);          // We need to make sure the ListView does not try and use an indexer that does not exist yet
         mAdapter.swapCursor(null);
 
+    }
+
+    public void updateContactName(String name){
+        this.mTitleTV.setText(R.string.contact_selected);
+        this.mContactSelected = name;
+        this.mContactTV.setVisibility(View.VISIBLE);
+        this.mContactTV.setText(name);
+
+    }
+
+    public void updateEmail(String email){
+        this.mEmailSelected = email;
+    }
+
+
+    public void updateContactAvatar(Bitmap thumbnail){
+        this.mAvatarIV.setVisibility(View.VISIBLE);
+        this.mContactButton.setVisibility(View.GONE);
+        if(thumbnail!= null)
+            this.mAvatarIV.setImageBitmap(thumbnail);
+        else
+            this.mAvatarIV.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.unknown_person));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(isContactsVisible){
+            hideContactList();
+        }
+    }
+
+    public void hideContactList(){
+        mContactsList.post(new Runnable() {
+            @Override
+            public void run() {
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_slide_out_bottom);
+                mContactsList.startAnimation(animation);
+                mContactsList.setVisibility(View.GONE);
+                isContactsVisible = false;
+            }
+        });
+        mAdapter.notifyDataSetChanged();
+    }
+
+    public void showContactList(){
+        mContactsList.setVisibility(View.VISIBLE);
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_slide_in_bottom);
+        mContactsList.startAnimation(animation);
+        isContactsVisible = true;
     }
 }

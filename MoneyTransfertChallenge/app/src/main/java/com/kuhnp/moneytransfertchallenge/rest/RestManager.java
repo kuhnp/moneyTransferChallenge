@@ -1,11 +1,16 @@
 package com.kuhnp.moneytransfertchallenge.rest;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.kuhnp.moneytransfertchallenge.Convertion;
+import com.kuhnp.moneytransfertchallenge.Conversion;
+import com.kuhnp.moneytransfertchallenge.MainActivity;
 import com.kuhnp.moneytransfertchallenge.MyApplication;
+import com.kuhnp.moneytransfertchallenge.R;
+import com.kuhnp.moneytransfertchallenge.fragment.MoneyExchangeFragment;
 
 import java.util.List;
 
@@ -27,6 +32,7 @@ public class RestManager {
     private MyApplication application;
     private RestAdapter mRestAdapter;
     private RestApi mApi;
+    public List<String> mCurrencyList;
 
 
     private RestManager(Context context){
@@ -44,13 +50,19 @@ public class RestManager {
         return mInstance;
     }
 
-    public void requestDataCurrencies(){
+    public void requestDataCurrencies(Context c){
+        final Context context =c;
         mApi.getCurrencies(new Callback<List<String>>() {
             @Override
             public void success(List<String> strings, Response response) {
                 for (String s : strings) {
                     Log.d(TAG, s);
                 }
+                mCurrencyList = strings;
+                Intent intent = new Intent(context, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+                ((Activity)context).finish();
             }
             @Override
             public void failure(RetrofitError error) {
@@ -59,18 +71,42 @@ public class RestManager {
         });
     }
 
-    public void requestDataConverion(){
-        mApi.getConversion(new Callback<Convertion>() {
+    public void requestDataConverion(String amount, String sendCurrency, String receiveCurency, final Context c, boolean order){
+        final boolean orderTmp = order;
+        mApi.getConversion(amount, sendCurrency, receiveCurency, new Callback<Conversion>() {
             @Override
-            public void success(Convertion convertion, Response response) {
+            public void success(Conversion convertion, Response response) {
+                updateFragment(convertion, c, orderTmp);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(context, "error", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "error");
             }
         });
     }
 
+    public void sendMoney(Conversion conversion){
+        mApi.sendMoney(conversion, new Callback<String>() {
+            @Override
+            public void success(String s, Response response) {
+                if(response.getStatus() == 201 && response.getReason().equalsIgnoreCase("Created"))
+                    Toast.makeText(context, "Money successfully transfered", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(context, "error during the transaction", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(context, "Network error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void updateFragment(Conversion conversion, Context c, boolean order){
+       MoneyExchangeFragment fragment = (MoneyExchangeFragment) ((MainActivity)c).getSupportFragmentManager().findFragmentById(R.id.fragment);
+        fragment.refreshFragment(conversion, order);
+
+
+    }
 
 }

@@ -24,4 +24,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'net.i2p.android.ext:floatingactionbutton:1.9.0'
+
+
+
 }

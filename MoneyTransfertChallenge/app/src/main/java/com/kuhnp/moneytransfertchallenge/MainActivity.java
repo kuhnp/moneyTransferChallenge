@@ -62,7 +62,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                     showContactList();
                 else
                     hideContactList();
-            }
+                }
         });
 
         mAvatarIV.setOnClickListener(new View.OnClickListener() {

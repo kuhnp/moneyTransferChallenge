@@ -75,9 +75,11 @@ public class MoneyExchangeFragment extends Fragment {
         mRestManager = ((MyApplication)getActivity().getApplication()).restManager;
         mCurrencyArray = mRestManager.mCurrencyList;
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_item, mCurrencyArray);
-        mSpinner1.setAdapter(arrayAdapter);
-        mSpinner2.setAdapter(arrayAdapter);
+        if(mCurrencyArray != null) {
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_item, mCurrencyArray);
+            mSpinner1.setAdapter(arrayAdapter);
+            mSpinner2.setAdapter(arrayAdapter);
+        }
 
         mEditTextSend.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(9, 2)});
         mEditTextReceived.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(9,2)});
@@ -158,7 +160,7 @@ public class MoneyExchangeFragment extends Fragment {
                                mSpinner1.getSelectedItem().toString(),
                                ((MainActivity) getActivity()).mContactSelected);
                        new AlertDialog.Builder(getActivity()).setTitle("Send money ")
-                               .setMessage("Are you sure you want to send "+ conversion.getSendamount()+ conversion.getSendcurrency()+" to "+conversion.getRecipient()+"?")
+                               .setMessage("Are you sure you want to send "+ conversion.getSendamount()+" "+ conversion.getSendcurrency()+" to "+conversion.getRecipient()+"?")
                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                    @Override
                                    public void onClick(DialogInterface dialog, int which) {

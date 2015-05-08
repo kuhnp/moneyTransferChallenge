@@ -38,19 +38,20 @@ import java.util.regex.Pattern;
 public class MoneyExchangeFragment extends Fragment {
 
     private Context mContext;
-    List<String> mCurrencyArray;
+    public List<String> mCurrencyArray;
 
-    private EditText mEditTextSend;
-    private EditText mEditTextReceived;
-    private Spinner mSpinner1;
-    private Spinner mSpinner2;
-    private Button mSendButton;
+    public EditText mEditTextSend;
+    public EditText mEditTextReceived;
+    public Spinner mSpinner1;
+    public Spinner mSpinner2;
+    public Button mSendButton;
     private TextView mResultTV;
     private Button mNewTransferB;
     private InputMethodManager mImm;
-    private boolean isReadyToSend = false;
+    public boolean isReadyToSend = false;
     private boolean isReverse;
     private RestManager mRestManager;
+    public Toast mToast;
 
     public MoneyExchangeFragment(Context context){
         this.mContext = context;
@@ -177,11 +178,13 @@ public class MoneyExchangeFragment extends Fragment {
                                .show();
                    }
                    else{
-                       Toast.makeText(getActivity(), R.string.no_contact_selected, Toast.LENGTH_SHORT).show();
+                       mToast = Toast.makeText(getActivity(), R.string.no_contact_selected, Toast.LENGTH_SHORT);
+                       mToast.show();
                    }
                } else {
                    if (mEditTextSend.getText().toString().isEmpty() && mEditTextReceived.getText().toString().isEmpty()) {
-                       Toast.makeText(getActivity(), R.string.empty_fields, Toast.LENGTH_SHORT).show();
+                       mToast = Toast.makeText(getActivity(), R.string.empty_fields, Toast.LENGTH_SHORT);
+                       mToast.show();
                    }
                    else{
                        if(mEditTextSend.getText().toString().isEmpty())

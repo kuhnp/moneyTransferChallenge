@@ -1,11 +1,14 @@
 package com.kuhnp.moneytransfertchallenge;
 
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.provider.ContactsContract;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -20,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.kuhnp.moneytransfertchallenge.adapter.ContactCursorAdapter;
+import com.kuhnp.moneytransfertchallenge.fragment.MoneyExchangeFragment;
+
 import net.i2p.android.ext.floatingactionbutton.FloatingActionButton;
 import java.util.HashSet;
 import java.util.Set;
@@ -55,6 +60,14 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         mContactsList.setAdapter(mAdapter);
         getSupportLoaderManager().initLoader(0, null, MainActivity.this);
         mContactButton = (FloatingActionButton) findViewById(R.id.contactB);
+
+//
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        Fragment fragment = new MoneyExchangeFragment();
+//        fragmentTransaction.add(R.id.fragment, fragment);
+//        fragmentTransaction.commit();
+
         mContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

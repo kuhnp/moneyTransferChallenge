@@ -33,8 +33,7 @@ public class SplashTest extends ActivityInstrumentationTestCase2<Splash> {
     }
 
     public void testPreconditions() {
-        //Try to add a message to add context to your assertions. These messages will be shown if
-        //a tests fails and make it easy to understand why a test failed
         assertNotNull("mFirstTestText is null", mFirstTestText);
+        assertEquals("Fast Transfer", mFirstTestText.getText().toString());
     }
 }

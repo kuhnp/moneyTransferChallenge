@@ -27,13 +27,13 @@ public class RestManager {
     public static final String ENDPOINT = "https://wr-interview.herokuapp.com/api";
 
     static RestManager mInstance;
-    private Context context;
+    private Context mContext;
     private RestAdapter mRestAdapter;
     private RestApi mApi;
     public List<String> mCurrencyList;
 
     private RestManager(Context context){
-        this.context = context;
+        this.mContext = context;
         mRestAdapter = new RestAdapter.Builder()
                 .setEndpoint(ENDPOINT)
                 .build();
@@ -55,9 +55,6 @@ public class RestManager {
         mApi.getCurrencies(new Callback<List<String>>() {
             @Override
             public void success(List<String> strings, Response response) {
-                for (String s : strings) {
-                    Log.d(TAG, s);
-                }
                 mCurrencyList = strings;
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -67,6 +64,7 @@ public class RestManager {
             @Override
             public void failure(RetrofitError error) {
                 Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
+                ((Activity)context).finish();
             }
         });
     }
@@ -89,7 +87,8 @@ public class RestManager {
 
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(c, R.string.network_error, Toast.LENGTH_SHORT).show();
+                ((MainActivity)c).mProgressDialog.dismiss();
             }
         });
     }
@@ -104,21 +103,21 @@ public class RestManager {
             @Override
             public void success(String s, Response response) {
                 if (response.getStatus() == 201 && response.getReason().equalsIgnoreCase("Created"))
-                    //Toast.makeText(context, "Money successfully transfered", Toast.LENGTH_SHORT).show();
                     updateFragmentAfterSend(conversion, c);
                 else
-                    Toast.makeText(context, R.string.transaction_error, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(c, R.string.transaction_error, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(c, R.string.network_error, Toast.LENGTH_SHORT).show();
+                ((MainActivity)c).mProgressDialog.dismiss();
             }
         });
     }
 
     public void updateFragmentAfterConversion(Conversion conversion, Context c, boolean order){
-       MoneyExchangeFragment fragment = (MoneyExchangeFragment) ((MainActivity)c).getSupportFragmentManager().findFragmentById(R.id.fragment);
+        MoneyExchangeFragment fragment = (MoneyExchangeFragment) ((MainActivity)c).getSupportFragmentManager().findFragmentById(R.id.fragment);
         fragment.refreshFragmentAfterConversion(conversion, order);
     }
 

@@ -63,7 +63,6 @@ public class MoneyExchangeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.money_exchange_fragment, container, false);
 
-
         mEditTextSend = (EditText) viewRoot.findViewById(R.id.amount1);
         mEditTextReceived = (EditText) viewRoot.findViewById(R.id.amount2);
         mSpinner1 = (Spinner) viewRoot.findViewById(R.id.currencySpinner1);
@@ -315,4 +314,3 @@ class DecimalDigitsInputFilter implements InputFilter {
     }
 
 }
-

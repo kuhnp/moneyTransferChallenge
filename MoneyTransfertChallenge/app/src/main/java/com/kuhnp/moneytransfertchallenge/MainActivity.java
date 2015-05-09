@@ -61,13 +61,6 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         getSupportLoaderManager().initLoader(0, null, MainActivity.this);
         mContactButton = (FloatingActionButton) findViewById(R.id.contactB);
 
-//
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        Fragment fragment = new MoneyExchangeFragment();
-//        fragmentTransaction.add(R.id.fragment, fragment);
-//        fragmentTransaction.commit();
-
         mContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

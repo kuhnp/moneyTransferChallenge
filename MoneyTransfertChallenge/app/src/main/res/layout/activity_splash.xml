@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:text="by Pierre"
+            android:text="@string/author"
             android:textSize="25sp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"/>

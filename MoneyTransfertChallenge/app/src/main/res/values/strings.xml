@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Fast Transfer</string>
-
+    <string name="author">by Pierre Kuhn</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_splash">Splash</string>

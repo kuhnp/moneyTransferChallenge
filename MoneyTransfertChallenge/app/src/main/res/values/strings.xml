@@ -16,5 +16,6 @@
     <string name="transaction_error">Error during the transaction</string>
     <string name="amount_hint">enter amount</string>
     <string name="money_sent">Money Sent!</string>
+    <string name="wait_progress">Please wait</string>
 
 </resources>

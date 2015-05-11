@@ -82,6 +82,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         });
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(false);
+        mProgressDialog.setMessage("Please wait");
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
     }
 

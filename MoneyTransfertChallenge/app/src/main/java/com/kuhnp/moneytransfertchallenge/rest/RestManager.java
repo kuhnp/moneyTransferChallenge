@@ -27,22 +27,20 @@ public class RestManager {
     public static final String ENDPOINT = "https://wr-interview.herokuapp.com/api";
 
     static RestManager mInstance;
-    private Context mContext;
     private RestAdapter mRestAdapter;
     private RestApi mApi;
     public List<String> mCurrencyList;
 
-    private RestManager(Context context){
-        this.mContext = context;
+    private RestManager(){
         mRestAdapter = new RestAdapter.Builder()
                 .setEndpoint(ENDPOINT)
                 .build();
         mApi = mRestAdapter.create(RestApi.class);
     }
 
-    public static RestManager getInstance(Context context){
+    public static RestManager getInstance(){
         if(mInstance == null)
-            mInstance = new RestManager(context);
+            mInstance = new RestManager();
         return mInstance;
     }
 

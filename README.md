@@ -42,6 +42,15 @@ I also watch lots of video on Youtube (tutorials, conferences, Google I/O).
 		"Company": "Orange Labs",
 		"Location": "London"
 	},
+	"Main_skills":[
+		"Android(SDK,NDK)",
+		"Java",
+		"C/C++",
+		"Node.js",
+		"JavaScript",
+		"SQLite",
+		"MongoDB"
+	],
 	"Passions":[
 		"Android",
 		"Coding",
